@@ -1,9 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Symfony
+name: Symfony CI
 
 on:
   push:
@@ -17,28 +12,48 @@ permissions:
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-      #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
-      # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-      # uses: shivammathur/setup-php@v2
-      - name: Setup PHP
+      - name: Setup PHP, with MySQL and extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+          extensions: mbstring, pdo_mysql
+          tools: composer:v2
+
       - uses: actions/checkout@v3
-      - name: Copy .env.test.example
-        run: php -r "file_exists('.env.test.example') || copy('.env.test', '.env.test.example');"
-      - name: Copy .env.example
-        run: php -r "file_exists('.env.example') || copy('.env', '.env.example');"
+
+      - name: Copy .env.test.example to .env.test
+        run: cp .env.test.example .env.test
+
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
+      - name: Update .env.test with MySQL service credentials
+        run: |
+          echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/symfony_test" >> .env.test
+
       - name: Cache Composer packages
-        id: composer-cache
         uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+          restore-keys: ${{ runner.os }}-php-
+
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Prepare the Test Database
+        run: php bin/console doctrine:database:create --env=test && php bin/console doctrine:schema:update --force --env=test
+
       - name: Run PHPUnit Tests
         run: vendor/bin/phpunit
