@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Project\Post\Domain\ValueObjects;
+namespace App\Tests\Unit\Project\Post\Domain\ValueObjects;
 
 use App\Project\Post\Domain\Constants\ContentConstants;
 use App\Project\Post\Domain\ValueObjects\Content;
@@ -22,7 +22,7 @@ class ContentTest extends TestCase
             ->setMetadataFactory(new LazyLoadingMetadataFactory(new AttributeLoader()))
             ->getValidator();
     }
-    
+
     public function testContentIsExactlyMinimumLength(): void
     {
         $content = new Content(str_repeat('A', ContentConstants::MIN_LENGTH));
