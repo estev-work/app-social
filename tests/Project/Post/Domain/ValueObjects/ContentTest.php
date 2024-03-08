@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Project\Post\Domain\ValueObjects;
+namespace App\Tests\Project\Post\Domain\ValueObjects;
 
 use App\Project\Post\Domain\Constants\ContentConstants;
 use App\Project\Post\Domain\ValueObjects\Content;
@@ -28,7 +28,7 @@ class ContentTest extends TestCase
         $content = new Content(str_repeat('A', ContentConstants::MIN_LENGTH));
         $violations = $this->validator->validate($content);
 
-        $this->assertCount(0, $violations, 'Контент равный минимальной длине');
+        $this->assertCount(0, $violations);
     }
 
     public function testContentIsExactlyMaximumLength(): void
@@ -36,7 +36,7 @@ class ContentTest extends TestCase
         $content = new Content(str_repeat('A', ContentConstants::MAX_LENGTH));
         $violations = $this->validator->validate($content);
 
-        $this->assertCount(0, $violations, 'Контент равный максимальной длине');
+        $this->assertCount(0, $violations);
     }
 
     public function testContentIsJustOneCharacterTooShort(): void
@@ -46,11 +46,7 @@ class ContentTest extends TestCase
         );
         $violations = $this->validator->validate($content);
 
-        $this->assertGreaterThan(
-            0,
-            count($violations),
-            'Контент короче на 1 символ от минимального.'
-        );
+        $this->assertGreaterThan(0, count($violations));
     }
 
     public function testContentIsJustOneCharacterTooLong(): void
@@ -60,10 +56,6 @@ class ContentTest extends TestCase
         );
         $violations = $this->validator->validate($content);
 
-        $this->assertGreaterThan(
-            0,
-            count($violations),
-            'Контент больше на 1 символ максимальной длинны'
-        );
+        $this->assertGreaterThan(0, count($violations));
     }
 }
