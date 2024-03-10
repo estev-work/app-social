@@ -11,10 +11,10 @@ final readonly class UpdatedDate
     #[AppAssert\IsValidDateTimeImmutable]
     private DateTimeImmutable $value;
 
-    public function __construct(?string $createdDate = 'now')
+    public function __construct(?string $updatedDate = 'now')
     {
         try {
-            $this->value = new DateTimeImmutable($createdDate);
+            $this->value = new DateTimeImmutable($updatedDate);
         } catch (\Exception $exception) {
             throw new \InvalidArgumentException($exception->getMessage());
         }

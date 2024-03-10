@@ -21,14 +21,14 @@ class PostIdTest extends TestCase
             ->getValidator();
     }
 
-    public function testAuthorIdIsValidUuid(): void
+    public function testPostIdIsValidUuid(): void
     {
         $uuid = Uuid::v4();
         $postId = new PostId($uuid);
         $this->assertEquals($uuid, $postId->getValue());
     }
 
-    public function testAuthorIdIsNotValidUuid(): void
+    public function testPostIdIsNotValidUuid(): void
     {
         $uuid = 'not-valid-uuid';
         $postId = new PostId($uuid);
@@ -36,7 +36,7 @@ class PostIdTest extends TestCase
         $this->assertCount(1, $violations);
     }
 
-    public function testAuthorIdIsEmptyUuid(): void
+    public function testPostIdIsEmptyUuid(): void
     {
         $uuid = '';
         $postId = new PostId($uuid);
@@ -44,7 +44,7 @@ class PostIdTest extends TestCase
         $this->assertCount(0, $violations);
     }
 
-    public function testAuthorIdIsNullUuid(): void
+    public function testPostIdIsNullUuid(): void
     {
         $postId = new PostId(null);
         $violations = $this->validator->validate($postId);
@@ -52,7 +52,7 @@ class PostIdTest extends TestCase
         $this->assertCount(0, $violations);
     }
 
-    public function testAuthorIdIsNotProvidedUuid(): void
+    public function testPostIdIsNotProvidedUuid(): void
     {
         $postId = new PostId();
         $violations = $this->validator->validate($postId);
