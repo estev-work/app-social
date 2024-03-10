@@ -6,7 +6,7 @@ use App\Validator\Constraints as AppAssert;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class UpdatedDate
+final readonly class UpdatedDate
 {
     #[AppAssert\IsValidDateTimeImmutable]
     private DateTimeImmutable $value;
