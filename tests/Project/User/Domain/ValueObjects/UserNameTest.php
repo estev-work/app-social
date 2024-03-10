@@ -8,9 +8,12 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\AttributeLoader;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserNameTest extends TestCase
 {
+    private ValidatorInterface $validator;
+
     protected function setUp(): void
     {
         $this->validator = Validation::createValidatorBuilder()
