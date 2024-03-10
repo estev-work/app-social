@@ -10,7 +10,6 @@ use App\Project\Post\Domain\ValueObjects\PostId;
 use App\Project\Post\Domain\ValueObjects\PublishedStatus;
 use App\Project\Post\Domain\ValueObjects\Title;
 use App\Project\Post\Domain\ValueObjects\UpdatedDate;
-use DateTimeImmutable;
 use Exception;
 
 class PostAggregate implements AggregateRootInterface, PostAggregateInterface
@@ -51,13 +50,13 @@ class PostAggregate implements AggregateRootInterface, PostAggregateInterface
     }
 
     public static function make(
-        ?string $postId = null,
+        string $postId = null,
         string $title = null,
         string $content = null,
         string $authorId = null,
-        ?bool $isPublished = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTimeImmutable $updatedAt = null
+        bool $isPublished = null,
+        string $createdAt = null,
+        string $updatedAt = null
     ): self {
         return new PostAggregate(
             new PostId($postId),
