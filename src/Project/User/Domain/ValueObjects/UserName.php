@@ -2,25 +2,24 @@
 
 namespace App\Project\User\Domain\ValueObjects;
 
-use Symfony\Component\Uid\Uuid;
+use App\Project\User\Domain\Constants\UserNameConstants;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserName
 {
-    public function __construct(private ?string $value = null)
+    #[Assert\Length(min: UserNameConstants::MIN_LENGTH, max: UserNameConstants::MAX_LENGTH)]
+    private string $userName;
+
+    public function __construct(string $userName)
     {
-        $this->value = $this->value ?? Uuid::v4();
+        $this->userName = $userName;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getValue(): ?string
+    public function getValue(): string
     {
-        return $this->value;
-    }
-
-    public function change(string $newUserName): void
-    {
-        $this->value = $newUserName;
+        return $this->userName;
     }
 }
