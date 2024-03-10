@@ -2,17 +2,11 @@
 
 namespace App\Project\Post\Application\Commands\UnpublishPost;
 
-use App\Project\Post\Application\Commands\AbstractCommand;
 use App\Project\Post\Domain\PostAggregate;
 
-class UnpublishPostCommand extends AbstractCommand
+final readonly class UnpublishPostCommand
 {
-    public function __construct(protected PostAggregate $postAggregate)
+    public function __construct(public PostAggregate $postAggregate)
     {
-    }
-
-    public function getPostAggregate(): PostAggregate
-    {
-        return $this->postAggregate;
     }
 }

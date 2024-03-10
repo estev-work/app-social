@@ -2,9 +2,7 @@
 
 namespace App\Project\Post\Application\Queries\GetAllPosts;
 
-use App\Project\Post\Application\Queries\AbstractQuery;
-
-class GetAllPostsQuery extends AbstractQuery
+class GetAllPostsQuery
 {
     public function __construct()
     {

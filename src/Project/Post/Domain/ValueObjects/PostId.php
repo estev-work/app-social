@@ -3,12 +3,16 @@
 namespace App\Project\Post\Domain\ValueObjects;
 
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class PostId
 {
-    public function __construct(private ?string $value = null)
+    #[Assert\Uuid]
+    private string $value;
+
+    public function __construct(string $value = null)
     {
-        $this->value = $this->value ?? Uuid::v4();
+        $this->value = $value ?? Uuid::v4();
     }
 
     /**

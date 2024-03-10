@@ -2,17 +2,11 @@
 
 namespace App\Project\Post\Application\Commands\PublishPost;
 
-use App\Project\Post\Application\Commands\AbstractCommand;
 use App\Project\Post\Domain\PostAggregate;
 
-class PublishPostCommand extends AbstractCommand
+final readonly class PublishPostCommand
 {
-    public function __construct(protected PostAggregate $postAggregate)
+    public function __construct(public PostAggregate $postAggregate)
     {
-    }
-
-    public function getPostAggregate(): PostAggregate
-    {
-        return $this->postAggregate;
     }
 }

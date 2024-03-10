@@ -4,9 +4,9 @@ namespace App\Project\Post\Application\Queries\GetAllPosts;
 
 use App\Project\Post\Application\Exceptions\ApplicationLayerException;
 use App\Project\Post\Application\Exceptions\GetPostsException;
-use App\Project\Post\Application\Queries\AbstractQuery;
 use App\Project\Post\Application\Queries\AbstractQueryHandler;
 use App\Project\Post\Domain\PostAggregate;
+use Ecotone\Modelling\Attribute\QueryHandler;
 use Exception;
 
 class GetAllPostsQueryHandler extends AbstractQueryHandler
@@ -18,7 +18,8 @@ class GetAllPostsQueryHandler extends AbstractQueryHandler
      * @throws ApplicationLayerException
      * @throws Exception
      */
-    public function handle(GetAllPostsQuery|AbstractQuery $query): array
+    #[QueryHandler]
+    public function handle(GetAllPostsQuery $query): array
     {
         //TODO Сделать пагинацию
         try {

@@ -2,18 +2,12 @@
 
 namespace App\Project\Post\Application\Events\PostCreationEvent;
 
-use App\Project\Post\Application\Events\AbstractEvent;
 use App\Project\Post\Domain\PostAggregate;
 
-class PostCreationEvent extends AbstractEvent
+readonly class PostCreationEvent
 {
-    public function __construct(protected PostAggregate $postAggregate)
+    public function __construct(public PostAggregate $postAggregate)
     {
-    }
-
-    public function getPostAggregate(): PostAggregate
-    {
-        return $this->postAggregate;
     }
 
 }
