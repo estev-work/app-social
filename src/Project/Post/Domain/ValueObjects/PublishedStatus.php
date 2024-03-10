@@ -2,31 +2,21 @@
 
 namespace App\Project\Post\Domain\ValueObjects;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 final class PublishedStatus
 {
+    #[Assert\Choice(choices: [true, false])]
+    #[Assert\NotNull]
+    private bool $isPublished;
 
-    public function __construct(private ?bool $value = false)
+    public function __construct(bool $isPublished = false)
     {
-        if ($this->value === null) {
-            $this->value = false;
-        }
+        $this->isPublished = $isPublished;
     }
 
-    public function published(): string
-    {
-        return $this->value = true;
-    }
-
-    public function unpublished(): void
-    {
-        $this->value = false;
-    }
-
-    /**
-     * @return bool
-     */
     public function getValue(): bool
     {
-        return $this->value;
+        return $this->isPublished;
     }
 }

@@ -101,16 +101,16 @@ class PostAggregate implements AggregateRootInterface, PostAggregateInterface
 
     public function published(): self
     {
-        $this->published->published();
+        $this->published = new PublishedStatus(true);
         return $this;
     }
 
     public function unpublished(): self
     {
-        $this->published->unpublished();
+        $this->published = new PublishedStatus(false);
         return $this;
     }
-    
+
     #endregion
 
     #region GETTERS
