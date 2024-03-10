@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Project\Post\Domain;
 
 use App\Project\Post\Domain\Exceptions\DomainTitleValidationException;
@@ -55,8 +57,8 @@ class PostAggregate implements AggregateRootInterface, PostAggregateInterface
         string $content = null,
         string $authorId = null,
         bool $isPublished = null,
-        string $createdAt = null,
-        string $updatedAt = null
+        string $createdAt = 'now',
+        string $updatedAt = 'now'
     ): self {
         return new PostAggregate(
             new PostId($postId),

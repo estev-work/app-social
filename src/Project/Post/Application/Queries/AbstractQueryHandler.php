@@ -14,6 +14,4 @@ abstract class AbstractQueryHandler
     {
         $this->logger = new Logger(self::class);
     }
-
-    abstract public function handle(AbstractQuery $query);
 }

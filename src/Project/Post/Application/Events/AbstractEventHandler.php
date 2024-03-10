@@ -14,6 +14,4 @@ abstract class AbstractEventHandler
     {
         $this->logger = new Logger(self::class);
     }
-
-    abstract public function handle(AbstractEvent $event): void;
 }

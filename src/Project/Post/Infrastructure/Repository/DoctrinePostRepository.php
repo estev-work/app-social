@@ -5,7 +5,6 @@ namespace App\Project\Post\Infrastructure\Repository;
 use App\Project\Post\Domain\PostAggregate;
 use App\Project\Post\Domain\Repository\PostRepositoryInterface;
 use App\Project\Post\Infrastructure\Entity\PostEntity;
-use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -91,8 +90,8 @@ class DoctrinePostRepository extends ServiceEntityRepositoryProxy implements Pos
             content: $entity->getContent(),
             authorId: $entity->getAuthorId(),
             isPublished: $entity->getIsPublished(),
-            createdAt: new DateTimeImmutable($entity->getCreatedAt()),
-            updatedAt: new DateTimeImmutable($entity->getUpdatedAt())
+            createdAt: $entity->getCreatedAt(),
+            updatedAt: $entity->getUpdatedAt()
         );
     }
 }

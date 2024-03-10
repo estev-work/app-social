@@ -2,36 +2,14 @@
 
 namespace App\Project\Post\Application\Commands\CreateNewPost;
 
-use App\Project\Post\Application\Commands\AbstractCommand;
-
-class CreateNewPostCommand extends AbstractCommand
+final readonly class CreateNewPostCommand
 {
     public function __construct(
-        protected string $title,
-        protected string $content,
-        protected string $authorId,
-        protected string $isPublished
+        public string $title,
+        public string $content,
+        public string $authorId,
+        public string $isPublished
     ) {
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function getAuthorId(): string
-    {
-        return $this->authorId;
-    }
-
-    public function getIsPublished(): string
-    {
-        return $this->isPublished;
-    }
-
-    public function getContent(): string
-    {
-        return $this->content;
     }
 
 }

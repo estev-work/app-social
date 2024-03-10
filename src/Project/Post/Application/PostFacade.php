@@ -2,20 +2,17 @@
 
 namespace App\Project\Post\Application;
 
-use App\Project\Post\Application\Commands\CommandBus;
 use App\Project\Post\Application\Commands\CreateNewPost\CreateNewPostCommand;
-use App\Project\Post\Application\Commands\CreateNewPost\CreateNewPostCommandHandler;
 use App\Project\Post\Application\Commands\PublishPost\PublishPostCommand;
-use App\Project\Post\Application\Commands\PublishPost\PublishPostCommandHandler;
 use App\Project\Post\Application\Commands\UnpublishPost\UnpublishPostCommand;
-use App\Project\Post\Application\Commands\UnpublishPost\UnpublishPostCommandHandler;
-use App\Project\Post\Application\Events\EventBus;
 use App\Project\Post\Application\Events\PostCreationEvent\PostCreationEvent;
-use App\Project\Post\Application\Events\PostCreationEvent\PostCreationEventHandler;
 use App\Project\Post\Application\Queries\GetAllPosts\GetAllPostsQuery;
-use App\Project\Post\Application\Queries\GetAllPosts\GetAllPostsQueryHandler;
-use App\Project\Post\Application\Queries\QueryBus;
 use App\Project\Post\Domain\PostAggregate;
+use Ecotone\Modelling\CommandBus;
+use Ecotone\Modelling\EventBus;
+use Ecotone\Modelling\QueryBus;
+
+;
 
 class PostFacade
 {
@@ -27,64 +24,33 @@ class PostFacade
         CommandBus $commandBus,
         QueryBus $queryBus,
         EventBus $eventBus,
-        CreateNewPostCommandHandler $createNewPostCommandHandler,
-        PublishPostCommandHandler $publishPostCommandHandler,
-        UnpublishPostCommandHandler $unpublishPostCommandHandler,
-        GetAllPostsQueryHandler $getAllPostsQueryHandler,
-        PostCreationEventHandler $creationEventHandler,
     ) {
         $this->commandBus = $commandBus;
         $this->eventBus = $eventBus;
         $this->queryBus = $queryBus;
-
-        $this->initializeHandlers(
-            $createNewPostCommandHandler,
-            $publishPostCommandHandler,
-            $unpublishPostCommandHandler,
-            $getAllPostsQueryHandler,
-            $creationEventHandler
-        );
     }
 
-    private function initializeHandlers(
-        CreateNewPostCommandHandler $createNewPostCommandHandler,
-        PublishPostCommandHandler $publishPostCommandHandler,
-        UnpublishPostCommandHandler $unpublishPostCommandHandler,
-        GetAllPostsQueryHandler $getAllPostsQueryHandler,
-        PostCreationEventHandler $creationEventHandler,
-    ): void {
-        //Commands
-        $this->commandBus->registerHandler(CreateNewPostCommand::class, $createNewPostCommandHandler);
-        $this->commandBus->registerHandler(PublishPostCommand::class, $publishPostCommandHandler);
-        $this->commandBus->registerHandler(UnpublishPostCommand::class, $unpublishPostCommandHandler);
-
-        //Queries
-        $this->queryBus->registerHandler(GetAllPostsQuery::class, $getAllPostsQueryHandler);
-
-        //Queries
-        $this->eventBus->registerHandler(PostCreationEvent::class, $creationEventHandler);
-    }
 
     #region Commands
     public function createNewPost(string $title, string $content, string $authorId, $isPublished): PostAggregate
     {
         $command = new CreateNewPostCommand($title, $content, $authorId, $isPublished);
-        $post = $this->commandBus->handle($command);
+        $post = $this->commandBus->send($command);
         $event = new PostCreationEvent($post);
-        $this->eventBus->handle($event);
+        $this->eventBus->publish($event);
         return $post;
     }
 
     public function publishPost(PostAggregate $post): PostAggregate
     {
         $command = new PublishPostCommand($post);
-        return $this->commandBus->handle($command);
+        return $this->commandBus->send($command);
     }
 
     public function unpublishPost(PostAggregate $post): array
     {
         $command = new UnpublishPostCommand($post);
-        $result = $this->commandBus->handle($command);
+        $result = $this->commandBus->send($command);
         return $result->toArray();
     }
 
@@ -97,7 +63,7 @@ class PostFacade
     public function getAllPosts(): array
     {
         $query = new GetAllPostsQuery();
-        return $this->queryBus->handle($query);
+        return $this->queryBus->send($query);
     }
     #endregion
 }

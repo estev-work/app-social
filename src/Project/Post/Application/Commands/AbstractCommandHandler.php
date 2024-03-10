@@ -14,6 +14,4 @@ abstract class AbstractCommandHandler
     {
         $this->logger = new Logger(self::class);
     }
-
-    abstract public function handle(AbstractCommand $command);
 }

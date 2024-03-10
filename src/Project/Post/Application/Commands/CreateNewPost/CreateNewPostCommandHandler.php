@@ -2,11 +2,11 @@
 
 namespace App\Project\Post\Application\Commands\CreateNewPost;
 
-use App\Project\Post\Application\Commands\AbstractCommand;
 use App\Project\Post\Application\Commands\AbstractCommandHandler;
 use App\Project\Post\Application\Exceptions\ApplicationLayerException;
 use App\Project\Post\Application\Exceptions\CreatePostException;
 use App\Project\Post\Domain\PostAggregate;
+use Ecotone\Modelling\Attribute\CommandHandler;
 use Exception;
 
 class CreateNewPostCommandHandler extends AbstractCommandHandler
@@ -17,13 +17,14 @@ class CreateNewPostCommandHandler extends AbstractCommandHandler
      * @throws ApplicationLayerException
      * @throws Exception
      */
-    public function handle(CreateNewPostCommand|AbstractCommand $command): PostAggregate
+    #[CommandHandler]
+    public function handle(CreateNewPostCommand $command): PostAggregate
     {
         $this->aggregate = PostAggregate::make(
-            title: $command->getTitle(),
-            content: $command->getContent(),
-            authorId: $command->getAuthorId(),
-            isPublished: $command->getIsPublished()
+            title: $command->title,
+            content: $command->content,
+            authorId: $command->authorId,
+            isPublished: $command->isPublished
         );
         try {
             $this->postRepository->savePost($this->aggregate);
