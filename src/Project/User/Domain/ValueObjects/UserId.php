@@ -3,17 +3,18 @@
 namespace App\Project\User\Domain\ValueObjects;
 
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserId
 {
-    public function __construct(private ?string $value = null)
+    #[Assert\Uuid(versions: 4)]
+    private string $value;
+
+    public function __construct(string $value = null)
     {
-        $this->value = $this->value ?? Uuid::v4();
+        $this->value = ($value == null) && empty($value) ? Uuid::v4()->toRfc4122() : $value;
     }
 
-    /**
-     * @return string|null
-     */
     public function getValue(): ?string
     {
         return $this->value;
