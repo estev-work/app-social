@@ -14,7 +14,7 @@ RUN apk update && apk add --no-cache \
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
 # Установка PHP расширений
-RUN install-php-extensions pdo_mysql zip sockets
+RUN install-php-extensions pdo_mysql zip sockets intl
 
 # Xdebug ext
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
