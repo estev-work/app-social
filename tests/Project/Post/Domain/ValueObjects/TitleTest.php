@@ -58,4 +58,13 @@ class TitleTest extends TestCase
 
         $this->assertGreaterThan(0, count($violations));
     }
+
+
+    public function testTitleGetValue(): void
+    {
+        $title = new Title(str_repeat('A', TitleConstants::MIN_LENGTH));
+        $violations = $this->validator->validate($title);
+        $this->assertCount(0, $violations);
+        $this->assertEquals(str_repeat('A', TitleConstants::MIN_LENGTH), $title->getValue());
+    }
 }
