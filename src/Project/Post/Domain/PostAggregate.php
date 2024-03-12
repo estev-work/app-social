@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Project\Post\Domain;
 
-use App\Project\Post\Domain\Exceptions\DomainTitleValidationException;
 use App\Project\Post\Domain\ValueObjects\AuthorId;
 use App\Project\Post\Domain\ValueObjects\Content;
 use App\Project\Post\Domain\ValueObjects\CreatedDate;
@@ -12,7 +11,6 @@ use App\Project\Post\Domain\ValueObjects\PostId;
 use App\Project\Post\Domain\ValueObjects\PublishedStatus;
 use App\Project\Post\Domain\ValueObjects\Title;
 use App\Project\Post\Domain\ValueObjects\UpdatedDate;
-use Exception;
 
 class PostAggregate implements AggregateRootInterface, PostAggregateInterface
 {
@@ -92,25 +90,27 @@ class PostAggregate implements AggregateRootInterface, PostAggregateInterface
     }
 
     /**
-     * @throws DomainTitleValidationException|Exception
+     * @param string $newTitle
+     * @return $this
      */
     public function changeTitle(string $newTitle): self
     {
-        $this->title->change($newTitle);
+        $this->title = new Title($newTitle);
         return $this;
     }
 
     public function published(): self
     {
-        $this->published->published();
+        $this->published = new PublishedStatus(true);
         return $this;
     }
 
     public function unpublished(): self
     {
-        $this->published->unpublished();
+        $this->published = new PublishedStatus(false);
         return $this;
     }
+
     #endregion
 
     #region GETTERS

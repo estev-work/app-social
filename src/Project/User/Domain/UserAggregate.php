@@ -1,13 +1,11 @@
 <?php
 
+namespace App\Project\User\Domain;
 
-use App\Project\User\Domain\AggregateRootInterface;
 use App\Project\User\Domain\ValueObjects\CreatedDate;
 use App\Project\User\Domain\ValueObjects\UpdatedDate;
 use App\Project\User\Domain\ValueObjects\UserId;
 use App\Project\User\Domain\ValueObjects\UserName;
-use DateTimeImmutable;
-use Exception;
 
 class UserAggregate implements AggregateRootInterface
 {
@@ -37,8 +35,8 @@ class UserAggregate implements AggregateRootInterface
     public static function make(
         ?string $userId = null,
         string $userName = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTimeImmutable $updatedAt = null
+        string $createdAt = "now",
+        string $updatedAt = "now"
     ): self {
         return new UserAggregate(
             new UserId($userId),
@@ -65,12 +63,9 @@ class UserAggregate implements AggregateRootInterface
         return $this->id->getValue();
     }
 
-    /**
-     * @throws Exception
-     */
     public function changeUserName(string $newUserName): self
     {
-        $this->userName->change($newUserName);
+        $this->userName = new UserName($newUserName);
         return $this;
     }
 

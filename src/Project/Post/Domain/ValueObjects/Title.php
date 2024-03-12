@@ -2,14 +2,17 @@
 
 namespace App\Project\Post\Domain\ValueObjects;
 
-use App\Project\Post\Domain\Exceptions\DomainTitleValidationException;
+use App\Project\Post\Domain\Constants\TitleConstants;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class Title
 {
-    private const int MIN_LEN = 10;
+    #[Assert\Length(min: TitleConstants::MIN_LENGTH, max: TitleConstants::MAX_LENGTH)]
+    private string $title;
 
-    public function __construct(private string $title = "none")
+    public function __construct(string $title)
     {
+        $this->title = $title;
     }
 
     /**
@@ -18,18 +21,5 @@ final class Title
     public function getValue(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @throws DomainTitleValidationException
-     */
-    public function change(string $title): void
-    {
-        if (strlen($title) < self::MIN_LEN) {
-            throw new DomainTitleValidationException();
-        }
-        if ($title !== '') {
-            $this->title = $title;
-        }
     }
 }

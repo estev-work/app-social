@@ -10,15 +10,15 @@ final readonly class AuthorId
 {
     #[Assert\Uuid(versions: 4)]
     #[Assert\NotBlank]
-    private string $value;
+    private string $id;
 
-    public function __construct(string $value)
+    public function __construct(string $id)
     {
-        $this->value = $value;
+        $this->id = $id;
     }
 
     public function getValue(): ?string
     {
-        return $this->value;
+        return $this->id;
     }
 }

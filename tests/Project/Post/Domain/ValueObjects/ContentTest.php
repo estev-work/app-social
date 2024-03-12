@@ -58,4 +58,19 @@ class ContentTest extends TestCase
 
         $this->assertGreaterThan(0, count($violations));
     }
+
+    public function testContentIsEmpty(): void
+    {
+        $content = new Content('');
+        $violations = $this->validator->validate($content);
+        $this->assertCount(1, $violations);
+    }
+
+    public function testContentGetValue(): void
+    {
+        $content = new Content(str_repeat('A', ContentConstants::MIN_LENGTH));
+        $violations = $this->validator->validate($content);
+        $this->assertCount(0, $violations);
+        $this->assertEquals(str_repeat('A', ContentConstants::MIN_LENGTH), $content->getValue());
+    }
 }

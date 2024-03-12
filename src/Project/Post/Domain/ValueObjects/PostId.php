@@ -5,21 +5,18 @@ namespace App\Project\Post\Domain\ValueObjects;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class PostId
+final readonly class PostId
 {
-    #[Assert\Uuid]
-    private string $value;
+    #[Assert\Uuid(versions: 4)]
+    private string $id;
 
-    public function __construct(string $value = null)
+    public function __construct(string $id = null)
     {
-        $this->value = $value ?? Uuid::v4();
+        $this->id = ($id == null) && empty($id) ? Uuid::v4()->toRfc4122() : $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getValue(): ?string
     {
-        return $this->value;
+        return $this->id;
     }
 }

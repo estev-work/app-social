@@ -22,46 +22,46 @@ class UpdatedDateTest extends TestCase
             ->getValidator();
     }
 
-    public function testCreatedDateIsValid(): void
+    public function testUpdatedDateIsValid(): void
     {
-        $createdDate = new UpdatedDate('now');
-        $violations = $this->validator->validate($createdDate);
+        $updatedDate = new UpdatedDate('now');
+        $violations = $this->validator->validate($updatedDate);
         $this->assertCount(0, $violations);
     }
 
-    public function testCreatedDateIsInvalid(): void
+    public function testUpdatedDateIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new UpdatedDate("invalid date time string");
     }
 
-    public function testCreatedDateToISO(): void
+    public function testUpdatedDateToISO(): void
     {
-        $createdDate = new UpdatedDate('2021-01-01T00:00:00+00:00');
-        $this->assertEquals('2021-01-01T00:00:00+00:00', $createdDate->toISO());
+        $updatedDate = new UpdatedDate('2021-01-01T00:00:00+00:00');
+        $this->assertEquals('2021-01-01T00:00:00+00:00', $updatedDate->toISO());
     }
 
-    public function testCreatedDateToISOWithDefault(): void
+    public function testUpdatedDateToISOWithDefault(): void
     {
-        $createdDate = new UpdatedDate();
-        $this->assertEquals(date('Y-m-d\TH:i:sP'), $createdDate->toISO());
+        $updatedDate = new UpdatedDate();
+        $this->assertEquals(date('Y-m-d\TH:i:sP'), $updatedDate->toISO());
     }
 
-    public function testCreatedDateGetValue(): void
+    public function testUpdatedDateGetValue(): void
     {
-        $createdDate = new UpdatedDate('2021-01-01T00:00:00+00:00');
-        $this->assertEquals('2021-01-01T00:00:00+00:00', $createdDate->getValue()->format(DATE_ATOM));
+        $updatedDate = new UpdatedDate('2021-01-01T00:00:00+00:00');
+        $this->assertEquals('2021-01-01T00:00:00+00:00', $updatedDate->getValue()->format(DATE_ATOM));
     }
 
-    public function testCreatedDateGetValueWithDefault(): void
+    public function testUpdatedDateGetValueWithDefault(): void
     {
-        $createdDate = new UpdatedDate();
-        $this->assertEquals(date(DATE_ATOM), $createdDate->getValue()->format(DATE_ATOM));
+        $updatedDate = new UpdatedDate();
+        $this->assertEquals(date(DATE_ATOM), $updatedDate->getValue()->format(DATE_ATOM));
     }
 
-    public function testCreatedDateGetValueWithCustomDate(): void
+    public function testUpdatedDateGetValueWithCustomDate(): void
     {
-        $createdDate = new UpdatedDate('2021-01-01');
-        $this->assertEquals('2021-01-01T00:00:00+00:00', $createdDate->getValue()->format(DATE_ATOM));
+        $updatedDate = new UpdatedDate('2021-01-01');
+        $this->assertEquals('2021-01-01T00:00:00+00:00', $updatedDate->getValue()->format(DATE_ATOM));
     }
 }
